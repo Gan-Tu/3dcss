@@ -49,8 +49,12 @@
         border: 1px solid var(--black);
       }
 
-      #parent[data-rotate="true"] #child {
+      #parent[data-rotate="true"][data-3d-type="toggle1"] #child {
         transform: translate3d(0, 0, -200px) rotate3d(0.1, -0.1, 0.1, 86deg);
+      }
+
+      #parent[data-rotate="true"][data-3d-type="toggle2"] #child {
+        transform: translate3d(0, 0, -200px) rotate3d(0.1, 0, 0, 40deg);
       }
 
       .grandChild {
@@ -87,19 +91,21 @@
       </div>
     </div>
 
-    <button type="button">Toggle</button>
+    <button type="button" id="toggle1">Toggle 1</button>
+    <button type="button" id="toggle2">Toggle 2</button>
+
     <script type="text/javascript">
-      const button = document.querySelector("button");
       const parent = document.querySelector("#parent");
 
-      let isRotate = false;
-
-      function toggle() {
-        isRotate = !isRotate;
-        parent.setAttribute("data-rotate", isRotate);
+      function configureToggle(buttonId) {
+        let isRotate = false;
+        document.getElementById(buttonId).onclick = () => {
+            isRotate = !isRotate
+            parent.setAttribute("data-rotate", isRotate);
+            parent.setAttribute("data-3d-type", buttonId);
+        };
       }
-
-      button.onclick = toggle;
+      document.querySelectorAll("button").forEach(x => configureToggle(x.id));
     </script>
   </body>
 </html>
